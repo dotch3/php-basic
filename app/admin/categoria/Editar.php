@@ -2,6 +2,7 @@
 include_once "../../../db/conn.inc.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+
     if (!empty($_POST)) {
         $valid = True;
         if (!empty($_POST['name'])) {
@@ -65,17 +66,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../../../public/css/main.css">
-    <title>Criar Categoria</title>
+    <title>Editar Categoria</title>
 </head>
 
 <body>
-    <h2>Criar - Categoria</h2>
+    <h2>Editar - Categoria</h2>
 
     <div class="container row" style="margin: auto;">
         <div class="col-sm-2">
         </div>
         <div class="container col-sm-8 card">
-            <form method="post" action="Create.php">
+            <form method="post" action="Editar.php">
                 <div class="form-group">
                     <label for="name"> Nome:</label>
                     <input type="text" class="form-control form-custom" name="name" />
@@ -87,12 +88,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 </br>
                 <div class="col-12 btn-group btn-group-lg">
-                    <button type="submit" class="btn btn-outline-success btn-lg">Adicionar categoria</button>
+                    <button type="submit" class="btn btn-outline-warning btn-lg">Editar categoria</button>
                 </div>
                 </br>
                 <div class="col-md-12 btn-group btn-group-lg">
-                    <!-- <button type="button" onclick="window.location.href='javascript:history.back()'" class="btn btn-secondary btn-lg " style="background-color: #a60356;">Atras</button> -->
-                    <button type="button" onclick="window.location.href='./AdminListCategoria.php'" class="btn btn-secondary btn-lg " style="background-color: #a60356;">Categorias</button>
+                    <button type="button" onclick="window.location.href='./AdminListCategoria.php'" class="btn btn-secondary btn-lg " style="background-color: #a60356;">Cancelar</button>
                 </div>
 
             </form>

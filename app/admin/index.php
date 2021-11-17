@@ -11,6 +11,7 @@
     <!-- Theme style -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../public/css/main.css">
 
     <title>Home Admin</title>
 </head>
@@ -31,13 +32,13 @@
                     <div class="card-body d-grid">
                         <!-- <button class="btn btn-outline-info" type="button">Categorias</button> -->
                         <!-- echo '<a class="btn btn-primary" href="read.php?id='.$row['id'].'">Info</a>'; -->
-                        <a class="btn btn-outline-info" href="./categoria/AdminListCategoria.php">Categorias</a>
+                        <a class="btn btn-dark" href="./categoria/AdminListCategoria.php">Categorias</a>
                     </div>
                 </div>
                 <div class="card d-grid">
                     <div class="card-body d-grid">
                         <!-- <button class="btn btn-outline-info" type="button">Posts</button> -->
-                        <a class="btn btn-outline-info" href="./post/AdminListPost.php">Posts</a>
+                        <a class="btn btn-dark" href="./post/AdminListPost.php">Posts</a>
                     </div>
                 </div>
             </div>
