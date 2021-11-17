@@ -8,7 +8,6 @@ nav ul li a {
     color: #a60356;
     font-family: "Josefin Sans", sans-serif;
     font-size: 20px;
-    padding: 20px;
 }
 
 nav ul li:hover {
@@ -23,7 +22,7 @@ nav ul li a:hover {
 }
 
 .logo {
-    float: left;
+    /* float: left; */
     position: relative;
     /* margin: 10px 10px 10px 40px; */
     /* border-radius: 50%; */
@@ -34,9 +33,14 @@ nav ul li a:hover {
 }
 
 .date {
+    background-color: rgba(196, 196, 196, 0.25);
     align-items: flex-end;
     text-align: right;
     padding-left: 20px;
     padding-right: 50px;
     display: list !important;
+    color: #a60356;
+    font-size: 16px;
+    display: block;
+    font-family: "Josefin Sans", sans-serif;
 }

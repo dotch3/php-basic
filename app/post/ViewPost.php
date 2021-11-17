@@ -1,7 +1,11 @@
 <?php
+
+if (empty($_GET["id"])) {
+    exit('Post id invalido');
+}
 $id = $_GET['id'];
 // echo __DIR__;
-require_once __DIR__ . '/../../../db/conn.inc.php';
+require_once __DIR__ . '/../../db/conn.inc.php';
 // $sql = 'select * from post where post_id =' . $id . ';';
 $sql = 'select * from post where post_id =:post_id';
 
@@ -30,9 +34,10 @@ if (!$post) {
     <!-- Theme style -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="../../../public/css/header.css">
-    <link rel="stylesheet" href="../../../public/css/footer.css">
-    <link rel="stylesheet" href="../../../public/css/main.css">
+    <link rel="stylesheet" href="../../public/css/header.css">
+    <link rel="stylesheet" href="../../public/css/footer.css">
+    <link rel="stylesheet" href="../../public/css/main.css">
+
 
 
 
@@ -40,7 +45,7 @@ if (!$post) {
 </head>
 
 <body>
-    <h2>Detalhes Post:</h2>
+    <h2><?php echo $post['title'] ?></h2>
     <div class="container">
 
         <div class="container row card">
@@ -54,30 +59,27 @@ if (!$post) {
                                 echo 'Post invalid';
                             } else {
 
-                                echo '<img src="../../../storage/add.png" id="imgPost-' . $id . '" class="profile" style="width: 180px;height: 170px; ">';
+                                echo '<img src="../../storage/add.png" id="imgPost-' . $id . '" class="profile" style="width: 180px;height: 170px; ">';
                                 // echo '<img src="' . $id . '" id="imgPost-' . $id . '" class="profile" style="width: 180px;height: 170px; ">';
                             }
                             ?>
 
-
-
                         </div>
-                        <div class="container col-md-8 ">
-                            <div class="form-group">
-                                <label for="title"> Titulo:</label>
-                                <!-- {{ !empty($post->title) ? $post->title : '' }} -->
+                        <div class="container col-md-8  post_item">
+                            <div class="form-group post_item">
+                                <label style="color: #a60356;" for="title"> Titulo:</label>
                                 <input type="text" class="form-control" name="title" id="title" value="<?php echo $post['title'] ?>" disabled />
                             </div>
-                            <div class="form-group ">
-                                <label for="comment">Descrição:</label>
-                                <input type="text" class="form-control" name="description" id="description" value="<?php echo $post['description'] ?>" disabled />
+                            <div class="form-group post_item">
+                                <label style="color: #a60356;" for="description">Descrição:</label>
+                                <textarea disabled type="text" class="form-control" name="description" id="description"><?php echo $post['description'] ?> </textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="description">Data de criação:</label>
+                            <div class="form-group post_item">
+                                <label style="color: #a60356;" for="create_date">Data de criação:</label>
                                 <input type="text" class="form-control" name="create_date" id="create_date" value="<?php echo $post['create_date'] ?>" disabled />
                             </div>
-                            <div class="form-group">
-                                <label for="description">Ultima modificação:</label>
+                            <div class="form-group post_item">
+                                <label style="color: #a60356;" for="modify_date">Ultima modificação:</label>
                                 <input type="text" class="form-control" name="modify_date" id="modify_date" value="<?php echo $post['modify_date'] ?>" disabled />
                             </div>
                         </div>
@@ -89,7 +91,7 @@ if (!$post) {
                         <div class="col-md-3">
                         </div>
                         <div class="col-md-6 btn-group btn-group-lg">
-                            <button type="button" onclick="window.location.href='../../../index.php'" class="btn btn-secondary btn-lg ">Atras</button>
+                            <button type="button" onclick="window.location.href='javascript:history.back()'" class="btn btn-secondary btn-lg " style="background-color: #a60356;">Atras</button>
 
                         </div>
                         <div class="col-md-3">

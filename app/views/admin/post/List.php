@@ -1,1 +1,0 @@
-<h2> Lista de Posts</h2>
