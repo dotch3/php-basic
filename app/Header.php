@@ -19,7 +19,7 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item col-1">
-                    <a href="index.php"> <img src="./public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
+                    <a href="./app/index.php"> <img src="../public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
                 </li>
                 <!-- Codigo para carregar as categorias  -->
                 <?php
@@ -38,7 +38,7 @@
                 if (sizeOf($results) <= 5) {
                     foreach ($results as $row) {
                         echo '<li class="nav-item col-2 mt-2">';
-                        echo '<a href="app/post/ListPost.php?categoria_id=' . $row['name'] . '"> ' . $row['name'] . '</a>';
+                        echo '<a href="post/ListPost.php?categoriaId=' . $row['name'] . '"> ' . $row['name'] . '</a>';
                         echo '</li>';
                     }
                 } else {
@@ -47,11 +47,11 @@
                         # code...
                         $row = $results[$i];
                         echo '<li class="nav-item col-2 mt-2">';
-                        echo '<a  href="app/post/ListPost.php?categoria_id=' . $row['categoria_id'] . '">Categoria ' . $row['categoria_id'] . '</a>';
+                        echo '<a  href="post/ListPost.php?categoriaId=' . $row['categoria_id'] . '">Categoria ' . $row['categoria_id'] . '</a>';
                         echo '</li>';
                     }
                     echo '<li class="nav-item col-1 mt-2 outro">';
-                    echo '<a   href="app/categoria/ListCategoria.php" title="Mais Posts"> + </a>';
+                    echo '<a   href="categoria/ListCategoria.php" title="Mais Posts"> + </a>';
                     echo '</li>';
                 }
 

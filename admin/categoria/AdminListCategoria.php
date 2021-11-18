@@ -1,10 +1,11 @@
 <?php
-require_once __DIR__ . '/../../../db/conn.inc.php';
-$sql = 'select post.*,categoria.name from post,categoria WHERE post.categoria_id=categoria.categoria_id ORDER BY post.create_date DESC;';
+require_once __DIR__ . '/../../db/conn.inc.php';
+$sql = 'select categoria_id,name,description,create_date,modify_date from categoria order by categoria_id asc';
+
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
-$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <html>
 
@@ -20,10 +21,10 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Theme style -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="../../../public/css/main.css">
-    <link rel="stylesheet" href="../../../public/css/header.css">
-    <link rel="stylesheet" href="../../../public/css/footer.css">
-    <title>Admin - Posts</title>
+    <link rel="stylesheet" href="../../public/css/header.css">
+    <link rel="stylesheet" href="../../public/css/footer.css">
+    <link rel="stylesheet" href="../../public/css/main.css">
+    <title>Admin - Categorias</title>
 </head>
 
 <div class="row">
@@ -31,10 +32,10 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav>
             <ul class="nav">
                 <li class="nav-item col-1">
-                    <img src="../../../public/images/dollybot.png" width="90" height="80" alt="logo" title="logo" class="logo">
+                    <a href="../index.php"> <img src="../../public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
                 </li>
                 <li class="nav-item col-2 mt-2">
-                    <a href="../index.php">Home</a>
+                    <a href="../index.php">Home Admin</a>
                 </li>
                 <li class="nav-item col-2 mt-2">
                     <a href="../categoria/AdminListCategoria.php">Categorias</a>
@@ -48,44 +49,59 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <body>
-    <h2>Admin - Posts</h2>
+    <h2>Admin - Categorias</h2>
     <div class="container">
+        <div class="container-fluid" style="text-align:center;">
+            <a href="./Create.php" class="btn btn-info" style="color: #fff;
+                background-color: #a60356;
+                border-color: #d1dbdd;">
+                Criar Categoria
+            </a>
+        </div>
+        </br>
+    </div>
+    <div class=" container">
         <table class="table" style="text-align: center;">
             <thead>
                 <tr>
-                    <th scope="col">post_id</th>
-                    <th scope="col">title</th>
+                    <th scope="col">categoria_id</th>
+                    <!-- <th scope="col">ID</th> -->
+                    <th scope="col">name</th>
                     <th scope="col">description</th>
                     <th scope="col">create date</th>
                     <th scope="col">modify date</th>
-                    <th scope="col">categoria id</th>
-                    <th scope="col">categoria name</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if (!$posts) {
+                if (!$results) {
                     exit("Nenhum registro encontrado");
                 }
 
                 // echo sizeOf($results) . "<br/>";
 
-                foreach ($posts as $row) {
+                foreach ($results as $row) {
                     echo '<tr>';
-                    echo '<th scope="row">' . $row['post_id'] . '</th>';
-                    echo '<td>' . $row['title'] . '</td>';
+                    echo '<th scope="row">' . $row['categoria_id'] . '</th>';
+                    // echo '<td>' . $row['categoria_id'] . '</td>';
+                    echo '<td>' . $row['name'] . '</td>';
                     echo '<td>' . $row['description'] . '</td>';
                     echo '<td>' . $row['create_date'] . '</td>';
                     echo '<td>' . $row['modify_date'] . '</td>';
-                    echo '<td>' . $row['categoria_id'] . '</td>';
-                    echo '<td>' . $row['name'] . '</td>';
+
                     echo '<td width=250>';
-                    echo '<a class="btn btn-primary" href="read.php?id=' . $row['categoria_id'] . '">Ver</a>';
-                    echo ' ';
-                    echo '<a class="btn btn-warning" href="update.php?id=' . $row['categoria_id'] . '">Atualizar</a>';
-                    echo ' ';
-                    echo '<a class="btn btn-danger" href="delete.php?id=' . $row['categoria_id'] . '">Excluir</a>';
+                    echo '<a class="btn btn-primary" href="Ver.php?id=' . $row['categoria_id'] . '">Ver</a>';
+
+                    echo '<a class="btn btn-warning" href="Editar.php?id=' . $row['categoria_id'] . '">Editar</a>';
+
+                ?>
+                    <form action='Deletar.php?id=<?php echo $row['categoria_id']; ?>' method="post">
+                        <input type="hidden" name="id" value="<?php echo $row['categoria_id']; ?>">
+                        <button type="submit" class="btn btn-danger">Deletar</button>
+
+                    </form>
+                <?php
                     echo '</td>';
                     echo '</tr>';
                 }

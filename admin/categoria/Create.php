@@ -1,5 +1,5 @@
 <?php
-include_once "../../../db/conn.inc.php";
+include_once "../../db/conn.inc.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($_POST)) {
@@ -32,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 echo '<div class="alert alert-success" role="alert">';
-                echo 'Dados cadastrados com sucesso!!';
+                echo 'Dados cadastrados com sucesso!! </br>';
+                echo 'Atualize sua pagina para ver os cambios';
                 echo '</div>';
             } else {
                 echo '<div class="alert alert-danger" role="alert">';
@@ -64,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Theme style -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="../../../public/css/main.css">
+    <link rel="stylesheet" href="../../public/css/main.css">
     <title>Criar Categoria</title>
 </head>
 

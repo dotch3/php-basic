@@ -6,7 +6,7 @@ if (empty($_GET["id"])) {
 $id = $_GET['id'];
 
 require_once __DIR__ . '/../../db/conn.inc.php';
-$sql = 'select * from post where post_id =:post_id';
+$sql = 'select post.*, categoria.name from post, categoria where post.categoria_id=categoria.categoria_id and post_id=:post_id order by post_id desc';
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':post_id', $id, PDO::PARAM_INT);
@@ -64,20 +64,24 @@ if (!$post) {
                             ?>
 
                         </div>
-                        <div class="container col-md-8 ">
-                            <div class="form-group">
+                        <div class="container col-md-8  ">
+                            <div class="form-group ">
                                 <label style="color: #a60356;" for="title"> Titulo:</label>
                                 <input type="text" class="form-control" name="title" id="title" value="<?php echo $post['title'] ?>" disabled />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label style="color: #a60356;" for="description">Descrição:</label>
                                 <textarea disabled type="text" class="form-control" name="description" id="description"><?php echo $post['description'] ?> </textarea>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group ">
+                                <label style="color: #a60356;" for="categoria">Categoria:</label>
+                                <input type="text" class="form-control" name="categoria" id="categoria" value="<?php echo $post['name'] ?>" disabled />
+                            </div>
+                            <div class="form-group ">
                                 <label style="color: #a60356;" for="create_date">Data de criação:</label>
                                 <input type="text" class="form-control" name="create_date" id="create_date" value="<?php echo $post['create_date'] ?>" disabled />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label style="color: #a60356;" for="modify_date">Ultima modificação:</label>
                                 <input type="text" class="form-control" name="modify_date" id="modify_date" value="<?php echo $post['modify_date'] ?>" disabled />
                             </div>
@@ -90,7 +94,7 @@ if (!$post) {
                         <div class="col-md-3">
                         </div>
                         <div class="col-md-6 btn-group btn-group-lg">
-                            <button type="button" onclick="window.location.href='javascript:history.back()'" class="btn btn-secondary btn-lg " style="background-color: #a60356;">Atras</button>
+                            <button type="button" onclick="window.location.href='./AdminListPost.php'" class="btn btn-secondary btn-lg " style="background-color: #a60356;">Voltar</button>
 
                         </div>
                         <div class="col-md-3">

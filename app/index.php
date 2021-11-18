@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/db/conn.inc.php';
+require_once __DIR__ . '/../db/conn.inc.php';
 $sql = 'select post_id,title,description,create_date,modify_date from post order by create_date desc';
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -18,13 +18,13 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Theme style -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="./public/css/main.css">
-    <link rel="stylesheet" href="./public/css/header.css">
+    <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="../public/css/header.css">
     <title>App</title>
 </head>
 
 <?php
-include __DIR__ . '/app/Header.php';
+include __DIR__ . '/Header.php';
 ?>
 
 <body>
@@ -38,7 +38,7 @@ include __DIR__ . '/app/Header.php';
         $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
     } else {
 
-        $sql = 'select post.*,categoria.name from post,categoria WHERE post.categoria_id=categoria.categoria_id ORDER BY post.create_date DESC;';
+        $sql = 'select post.*,categoria.name from post,categoria WHERE post.categoria_id=categoria.categoria_id ORDER BY post.create_date DESC limit 10;';
         $stmt = $conn->prepare($sql);
     }
 
@@ -69,7 +69,7 @@ include __DIR__ . '/app/Header.php';
                                     if (!isset($post['title'])) {
                                         echo 'Post invalid';
                                     } else {
-                                        echo '<img src="./storage/add.png" id="imgPost-' . $post['post_id'] . '" class="profile" style="width: 100px;height: 80px; " alt="image Post-' . $post['post_id'] . '" title="imgage post-' . $post['post_id'] . '">';
+                                        echo '<img src="../storage/add.png" id="imgPost-' . $post['post_id'] . '" class="profile" style="width: 100px;height: 80px; " alt="image Post-' . $post['post_id'] . '" title="imgage post-' . $post['post_id'] . '">';
                                     }
                                     ?>
 
@@ -79,18 +79,14 @@ include __DIR__ . '/app/Header.php';
                                         <label for="title"> <?php echo $post['title'] ?>:</label>
 
                                         <p><?php echo $post['description'] ?></p>
-                                        <!-- <textarea disabled type="text" class="form-control" name="description" id="description"><?php echo $post['description'] ?> </textarea> -->
                                     </div>
 
                                 </div>
                             </div>
-
                             </br>
-
-
                         </div>
                         <div class="col-md-12 post-link">
-                            <?php echo '<p><a href="./app/post/ViewPost.php?id=' . $post['post_id'] . '">Leia mais </a> </p>'; ?>
+                            <?php echo '<p><a href="./post/ViewPost.php?id=' . $post['post_id'] . '">Leia mais </a> </p>'; ?>
                         </div>
                     </div>
                 <?php } ?>
@@ -100,7 +96,7 @@ include __DIR__ . '/app/Header.php';
             <div class="col-md-3">
                 <div class="card publicidade">
                     <h3>Publicidade</h3>
-                    <a href="https://www.fiap.com.br/online/graduacao/bacharelado/sistemas-de-informacao/"> <img class="image" src="./storage/fiapSchool.png" id="imgPublicidade" alt=" image Publicidade" title="pulicidade">
+                    <a href="https://www.fiap.com.br/online/graduacao/bacharelado/sistemas-de-informacao/"> <img class="image" src="../storage/fiapSchool.png" id="imgPublicidade" alt=" image Publicidade" title="pulicidade">
                     </a>
                 </div>
             </div>

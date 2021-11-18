@@ -6,8 +6,8 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = 'select categoria.categoria_id,post.post_id,post.title,post.description
             from categoria,post 
-            where categoria.categoria_id=post.categoria_id and post.post_id=1
-            order by post.post_id desc;';
+            where categoria.categoria_id=post.categoria_id
+            order by post.post_id desc  limit 10;';
 } else {
     //Returning ALL categories if the ID was not found in the URL
     $sql = 'select categoria_id,name,description,create_date,modify_date from categoria order by categoria_id asc';
@@ -54,7 +54,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav>
             <ul class="nav">
                 <li class="nav-item col-1">
-                    <a href="../../index.php"> <img src="../../public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
+                    <a href="../index.php"> <img src="../../public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
                 </li>
                 <!-- Codigo para carregar as categorias  -->
                 <?php
@@ -111,7 +111,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
 
-    <h2>Lista de Posts <?php echo (isset($categoria_id) && sizeOf($posts) > 0) ? ' - ' . $posts[0]['name'] : ''; ?> </h2>
+    <h2><?php echo (isset($categoria_id) && sizeOf($posts) > 0) ? 'Posts - ' . $posts[0]['name'] : 'Lista de Posts - Categoria  '; ?> </h2>
     <?php
     if (!$posts) {
         exit("Nenhum post encontrado nesta categoria");
