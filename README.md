@@ -3,11 +3,12 @@ Grupo Dollyboys
 
 ## Setup
 1. Clonar o repositorio
-2. Configurar o arquivo db>db_model?conn.inc.php  com as credenciais de um usuario com privilegios para exeuctar queries no banco de dados
+2. Configurar o arquivo db>db_model>conn.inc.php  com as credenciais de um usuario com privilegios para exeuctar queries no banco de dados.
+Exemplo:
 ```
-$hostname="192.168.64.2";
-$db_name="diario_bordo";
-$user="fiap";
+$hostname="192.168.64.2";  //pode ser localhost ou IP da maquina
+$db_name="diario_bordo";  //nome do banco de dados que sera criado com o script sql
+$user="fiap";  
 $passw="fiap";
 $conn = new PDO("mysql:host=$hostname;dbname=$db_name",$user,$passw);
 ```
