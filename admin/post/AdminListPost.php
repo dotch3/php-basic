@@ -96,9 +96,20 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     echo '<a class="btn btn-warning" href="Editar.php?id=' . $row['post_id'] . '">Editar</a>';
 
                 ?>
-                    <form action='Deletar.php?id=<?php echo $row['post_id']; ?>' method="post">
-                        <input type="hidden" name="id" value="<?php echo $row['post_id']; ?>">
-                        <button type="submit" class="btn btn-danger">Deletar</button>
+                    <!-- <form action='Deletar.php?id=<?php echo $row['post_id']; ?>' method="post"> -->
+                    <form method="" id="delete-form-<?php echo $row['post_id'] ?>" action="#" <input type="hidden" name="id" value="<?php echo $row['post_id']; ?>">
+                        <!-- <button type="submit" class="btn btn-danger">Deletar</button> -->
+
+                        <button onclick="if (confirm('Are you sure you want delete this data?')) {
+                                        event.preventDefault();
+                                        document.getElementById('delete-form-{{$item->id}}').submit();
+                                        }else{
+                                        event.preventDefault();
+                                        }
+                                        " class="btn btn-outline-danger btn-rounded btn-sm my-0" href="">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>Delete
+                        </button>
+
 
                     </form>
                 <?php

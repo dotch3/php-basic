@@ -32,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $valid = False;
         }
 
-        //triggering the query
 
         if ($valid) {
             $stmt = $conn->prepare("insert into post(title,description,categoria_id,create_date,image_path) values(:title,:description,:categoria_id,:create_date,:image_path)");
@@ -40,20 +39,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $categoria_id = $_POST['categoria_id'];
             $description = $_POST['description'];
             $create_date = $_POST['create_date'];
-            $image_path = $_POST['image_path'];
+
             // checking date 
 
             $stmt->bindParam(":title", $title);
             $stmt->bindParam(":categoria_id", $categoria_id);
             $stmt->bindParam(":description", $description);
             $stmt->bindParam(":create_date", $create_date);
-            $stmt->bindParam(":image_path", $image_path);
+
+
+
+            // Uploading image:
+            $location = '../../storage/uploads/';
+            $now = new DateTime();
+            $timestamp = $now->getTimestamp();
+            $postName = "post_" . $timestamp . "_";
+            $name = '';
+
+            if (isset($_FILES['file'])) {
+                $filename = $_FILES['file']['name'];
+                $name = $postName . $filename;
+                $tmp_name = $_FILES['file']['tmp_name'];
+                $errorFile = $_FILES['file']['error'];
+
+                if (move_uploaded_file($tmp_name, $location . $name)) {
+                    $stmt->bindParam(":image_path", $name);
+                } else {
+                    echo '<div class="alert alert-danger" role="alert">';
+                    echo "Image not uploaded!</br>";
+                    echo '</div>';
+                    $stmt->bindParam(":image_path", $_FILES['file']['name']);
+                }
+            }
+
+
 
 
             if ($stmt->execute()) {
                 echo '<div class="alert alert-success" role="alert">';
-                echo 'Dados atualizados com sucesso!! </br>';
-                echo 'Atualize sua pagina para ver os cambios';
+                echo 'Post criado com sucesso!! </br>';
+                echo 'Verifique na lista de Posts';
+                echo '</br>';
+                echo '<a class="link-primary" href="./AdminListPost.php">Lista de Posts</a>';
                 echo '</div>';
                 // header("Location: ./Editar.php?id=$id");
 
@@ -72,9 +99,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-
 ?>
+
+<html>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col-sm-2">
         </div>
         <div class="container col-sm-8 card">
-            <form action="Create.php" method="post">
+            <form action="Create.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title"> Titulo:</label>
                     <input type="text" class="form-control form-custom" name="title" value="<?php echo !empty($post['title']) ?  $post['title']  : ''; ?>" />
@@ -136,33 +163,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </select>
                     </div>
                 </div>
+                </br>
+                <!-- Imagem -->
                 <div class=" form-group">
-                    <form method="POST" action="FileUpload.php" enctype="multipart/form-data">
-                        <input type="file" name="uploadfile" value="" />
-                        <input type="submit" value="Upload" name="Submit1"> <br />
-
-                    </form>
-
-                    <?php
-                    if (isset($_POST['Submit1'])) {
-                        $filepath = "images/" . $_FILES["file"]["name"];
-
-                        if (move_uploaded_file($_FILES["file"]["tmp_name"], $filepath)) {
-                            echo "<img src=" . $filepath . " height=200 width=300 />";
-                        } else {
-                            echo "Error !!";
-                        }
-
-                        // Now let's move the uploaded image into the folder: image
-                        if (move_uploaded_file($tempname, $folder)) {
-                            $msg = "Image uploaded successfully";
-                        } else {
-                            $msg = "Failed to upload image";
-                        }
-                    }
-                    ?>
+                    <input class="form-control  form-custom" type="file" name="file">
 
                 </div>
+                </br>
                 <div class=" form-group">
                     <label for="create_date">Criado em:</label>
                     <input type="date" class="form-control  form-custom" name="create_date" id="create_date" value="<?php echo !empty($post['create_date']) ?  $post['create_date']  : ''; ?>" />

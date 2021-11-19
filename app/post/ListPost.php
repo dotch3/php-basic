@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
             order by post.post_id desc  limit 10;';
 } else {
     //Returning ALL categories if the ID was not found in the URL
-    $sql = 'select categoria_id,name,description,create_date,modify_date from categoria order by categoria_id asc';
+    $sql = 'select categoria_id,name,description,create_date,modify_date from categoria order by categoria_id asc limit 10;';
 }
 
 $stmt = $conn->prepare($sql);
@@ -96,12 +96,12 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (!empty($_GET["categoriaId"])) {
         $categoria_id = $_GET['categoriaId'];
 
-        $sql = 'select post.*, categoria.categoria_id,categoria.name from post,categoria WHERE post.categoria_id=:categoria_id AND categoria.categoria_id = post.categoria_id ORDER BY post.create_date DESC;';
+        $sql = 'select post.*, categoria.categoria_id,categoria.name from post,categoria WHERE post.categoria_id=:categoria_id AND categoria.categoria_id = post.categoria_id ORDER BY post.create_date DESC limit 10;';
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
     } else {
 
-        $sql = 'select post.*,categoria.name from post,categoria WHERE post.categoria_id=categoria.categoria_id ORDER BY post.create_date DESC;';
+        $sql = 'select post.*,categoria.name from post,categoria WHERE post.categoria_id=categoria.categoria_id ORDER BY post.create_date DESC limit 10;';
         $stmt = $conn->prepare($sql);
     }
 
@@ -111,7 +111,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
 
-    <h2><?php echo (isset($categoria_id) && sizeOf($posts) > 0) ? 'Posts - ' . $posts[0]['name'] : 'Lista de Posts - Categoria  '; ?> </h2>
+    <h2><?php echo (isset($categoria_id) && sizeOf($posts) > 0) ? 'Posts - ' . $posts[0]['name'] : 'Posts  '; ?> </h2>
     <?php
     if (!$posts) {
         exit("Nenhum post encontrado nesta categoria");
@@ -129,10 +129,11 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="row">
                                 <div class="col-md-2">
                                     <?php
-                                    if (!isset($post['title'])) {
-                                        echo 'Post invalid';
+                                    if (!isset($post['image_path'])) {
+
+                                        echo '<img src="../../storage/add.png" id="imgPost-' . $post['post_id'] . '" alt="image-' . $post['post_id'] . '"  class="profile" style="width: 180px;height: 170px; ">';
                                     } else {
-                                        echo '<img src="../../storage/add.png" id="imgPost-' . $post['post_id'] . '" class="profile" style="width: 100px;height: 80px; " alt="image Post-' . $post['post_id'] . '" title="imgage post-' . $post['post_id'] . '">';
+                                        echo '<img src="../../storage/uploads/' . $post['image_path'] . '" id="imgPost-' . $post['post_id']  . '" class="profile">';
                                     }
                                     ?>
 

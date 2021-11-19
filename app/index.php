@@ -1,10 +1,3 @@
-<?php
-require_once __DIR__ . '/../db/conn.inc.php';
-$sql = 'select post_id,title,description,create_date,modify_date from post order by create_date desc';
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 <html>
 
 <head>
@@ -20,6 +13,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../public/css/main.css">
     <link rel="stylesheet" href="../public/css/header.css">
+    <link rel="stylesheet" href="../public/css/footer.css">
     <title>App</title>
 </head>
 
@@ -30,30 +24,55 @@ include __DIR__ . '/Header.php';
 <body>
     <?php
     //Getting the data from database
+    require_once __DIR__ . '/../db/conn.inc.php';
     if (!empty($_GET["categoriaId"])) {
         $categoria_id = $_GET['categoriaId'];
-
-        $sql = 'select post.*, categoria.categoria_id,categoria.name from post,categoria WHERE post.categoria_id=:categoria_id AND categoria.categoria_id = post.categoria_id ORDER BY post.create_date DESC;';
+        $sql = 'select post.*, categoria.categoria_id,categoria.name from post,categoria WHERE post.categoria_id=:categoria_id AND categoria.categoria_id = post.categoria_id ORDER BY post.create_date DESC limit 10;';
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } elseif (isset($_POST['search'])) {
+        $search = $_POST['search'];
+        $sql = "select * from post where title like '%$search%' or description like '%$search%'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
-
         $sql = 'select post.*,categoria.name from post,categoria WHERE post.categoria_id=categoria.categoria_id ORDER BY post.create_date DESC limit 10;';
         $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    $stmt->execute();
-    //storing the results found
-    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
     ?>
 
     <h2>Lista de Posts <?php echo (isset($categoria_id) && sizeOf($posts) > 0) ? ' - ' . $posts[0]['name'] : ''; ?> </h2>
     <?php
     if (!$posts) {
-        exit("Nenhum post encontrado nesta categoria");
+        echo "Nenhum post encontrado";
+        echo '<div class="alert alert-success" role="alert">';
+
+        echo '<a class="link-primary" href="./index.php">Lista de Posts</a>';
+        echo '</div>';
+        exit();
     }
     ?>
+    <div class="container">
+        <form class="form-inline" action="index.php" method="post">
+
+            <div class="form-control form-control-lg">
+                <input type="text" class="form-control" name="search" id="search" placeholder="Ingresse um titulo ou descrição">
+
+                <input type="submit" class="btn btn-dark" value="Buscar >>">
+            </div>
+
+        </form>
+
+    </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-9">
@@ -66,10 +85,11 @@ include __DIR__ . '/Header.php';
                             <div class="row">
                                 <div class="col-md-2">
                                     <?php
-                                    if (!isset($post['title'])) {
-                                        echo 'Post invalid';
+                                    if (!isset($post['image_path'])) {
+
+                                        echo '<img src="../storage/add.png" id="imgPost-' . $post['post_id'] . '" alt="image-' . $post['post_id'] . '"  class="profile" style="width: 180px;height: 170px; ">';
                                     } else {
-                                        echo '<img src="../storage/add.png" id="imgPost-' . $post['post_id'] . '" class="profile" style="width: 100px;height: 80px; " alt="image Post-' . $post['post_id'] . '" title="imgage post-' . $post['post_id'] . '">';
+                                        echo '<img src="../storage/uploads/' . $post['image_path'] . '" id="imgPost-' . $post['post_id']  . '" class="profile">';
                                     }
                                     ?>
 
@@ -105,8 +125,7 @@ include __DIR__ . '/Header.php';
 </body>
 
 <?php
-include __DIR__ . "/app/Footer.php";
+include __DIR__ . '/Footer.php';
 ?>
-
 
 </html>

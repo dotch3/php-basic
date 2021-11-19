@@ -54,12 +54,11 @@ if (!$post) {
                     <div class="row ">
                         <div class="col-md-4">
                             <?php
-                            if (!isset($post['title'])) {
-                                echo 'Post invalid';
+                            if (!isset($post['image_path'])) {
+                                echo "$post[image_path]";
+                                echo '<img src="../../storage/add.png" id="imgPost-' . $post['post_id'] . '" class="profile" style="width: 180px;height: 170px; ">';
                             } else {
-
-                                echo '<img src="../../storage/add.png" id="imgPost-' . $id . '" class="profile" style="width: 180px;height: 170px; ">';
-                                // echo '<img src="' . $id . '" id="imgPost-' . $id . '" class="profile" style="width: 180px;height: 170px; ">';
+                                echo '<img src="../../storage/uploads/' . $post['image_path'] . '" id="imgPost-' . $post['post_id']  . '" class="profile" style="width: 180px;height: 170px; ">';
                             }
                             ?>
 

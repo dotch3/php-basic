@@ -19,7 +19,7 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item col-1">
-                    <a href="./app/index.php"> <img src="../public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
+                    <a href="./index.php"> <img src="../public/images/dollybot.png" width="90" height="80" alt="Home" title="Home" class="logo"></a>
                 </li>
                 <!-- Codigo para carregar as categorias  -->
                 <?php
